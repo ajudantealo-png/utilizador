@@ -4,7 +4,7 @@ import streamlit as st
 # App simples para demonstrar a lógica do Jogo do Semáforo 2x2.
 # Objetivo: mostrar mudança de cor, alternância de jogadores e vencedor.
 
-st.set_page_config(page_title="Semáforo 2x2 - Tutorial", page_icon="🚦")
+st.set_page_config(page_title="Semáforo 3x4 - Tutorial", page_icon="🚦")
 
 
 # Ordem das cores do jogo.
@@ -28,18 +28,27 @@ PROXIMA_COR = {
 
 # Num tabuleiro 2x2, estas são todas as linhas, colunas e diagonais.
 LINHAS_VENCEDORAS = [
-    (0, 1),  # primeira linha
-    (2, 3),  # segunda linha
-    (0, 2),  # primeira coluna
-    (1, 3),  # segunda coluna
-    (0, 3),  # diagonal principal
-    (1, 2),  # diagonal secundária
+    (0, 1, 2),  # primeira linha
+    (1, 2, 3),  # primeira linha
+    (4, 5, 6),  # segunda linha
+    (5, 6, 7),  # segunda linha
+    (8, 9, 10), # terceira linha 
+    (9, 10, 11),# terceira linha   
+    (0, 4, 8),  # primeira coluna
+    (1, 5, 9),  # segunda coluna
+    (2, 6, 10), # terceira coluna
+    (3, 7, 11), # quarta coluna
+    (0, 5, 10), # diagonal
+    (1, 6, 11), # diagonal 
+    (2, 5, 8),  # diagonal
+    (3, 6, 9),  # diagonal
+    
 ]
 
 
 def iniciar_jogo():
     """Coloca o jogo no estado inicial."""
-    st.session_state.tabuleiro = ["vazio", "vazio", "vazio", "vazio"]
+    st.session_state.tabuleiro = ["vazio", "vazio", "vazio", "vazio", "vazio", "vazio", "vazio", "vazio", "vazio", "vazio", "vazio", "vazio",]
     st.session_state.jogador = 1
     st.session_state.vencedor = None
     st.session_state.mensagem = None
@@ -54,11 +63,12 @@ def garantir_estado_inicial():
 
 def verificar_vencedor():
     """Verifica se há duas células não pretas iguais numa linha, coluna ou diagonal."""
-    for a, b in LINHAS_VENCEDORAS:
+    for a, b, c in LINHAS_VENCEDORAS:
         cor_a = st.session_state.tabuleiro[a]
         cor_b = st.session_state.tabuleiro[b]
+        cor_c = st.session_state.tabuleiro[c]
 
-        if cor_a != "vazio" and cor_a == cor_b:
+        if cor_a != "vazio" and cor_a == cor_b == cor_c:
             return st.session_state.jogador
 
     return None
@@ -92,9 +102,9 @@ def jogar(posicao):
 
 garantir_estado_inicial()
 
-st.title("🚦 Jogo do Semáforo 2x2")
+st.title("🚦 Jogo do Semáforo 3x4")
 st.write("Clique numa célula para mudar a cor: vazio → verde → amarelo → vermelho.")
-st.write("Vence quem formar duas células iguais, não pretas, numa linha, coluna ou diagonal.")
+st.write("Vence quem formar tres células iguais, não pretas, numa linha, coluna ou diagonal.")
 
 if st.session_state.vencedor is None:
     st.info(f"Vez do Jogador {st.session_state.jogador}")
@@ -105,8 +115,8 @@ if st.session_state.mensagem:
     st.warning(st.session_state.mensagem)
 
 
-# Desenho simples do tabuleiro 2x2.
-col1, col2 = st.columns(2)
+# Desenho simples do tabuleiro 3x4.
+col1, col2, col3, col4 = st.columns(3)
 
 with col1:
     st.button(
@@ -126,7 +136,6 @@ with col2:
         use_container_width=True,
     )
 
-col3, col4 = st.columns(2)
 
 with col3:
     st.button(
@@ -145,6 +154,74 @@ with col4:
         args=(3,),
         use_container_width=True,
     )
+    
+col5, col6, col7, col8 = st.columns(3)
+with col5:
+    st.button(
+        SIMBOLOS[st.session_state.tabuleiro[4]],
+        key="celula_4",
+        on_click=jogar,
+        args=(4,),
+        use_container_width=True,
+    )
+with col6:
+    st.button(
+        SIMBOLOS[st.session_state.tabuleiro[5]],
+        key="celula_5",
+        on_click=jogar,
+        args=(5,),
+        use_container_width=True,
+    )
+with col7:
+    st.button(
+        SIMBOLOS[st.session_state.tabuleiro[6]],
+        key="celula_6",
+        on_click=jogar,
+        args=(6,),
+        use_container_width=True,
+    )
+with col8:
+    st.button(
+        SIMBOLOS[st.session_state.tabuleiro[7]],
+        key="celula_7",
+        on_click=jogar,
+        args=(7,),
+        use_container_width=True,
+    )
+col9, col10, col11, col12 = st.columns(3)
+with col9:
+    st.button(
+        SIMBOLOS[st.session_state.tabuleiro[8]],
+        key="celula_8",
+        on_click=jogar,
+        args=(8,),
+        use_container_width=True,
+    )
+col10, col11, col12 = st.columns(3)
 
+with col10:
+    st.button(
+        SIMBOLOS[st.session_state.tabuleiro[9]],
+        key="celula_9",
+        on_click=jogar,
+        args=(9,),
+        use_container_width=True,
+    )
+with col11:
+    st.button(
+        SIMBOLOS[st.session_state.tabuleiro[10]],
+        key="celula_10",
+        on_click=jogar,
+        args=(10,),
+        use_container_width=True,
+    )
+with col12:
+    st.button(
+        SIMBOLOS[st.session_state.tabuleiro[11]],
+        key="celula_11",
+        on_click=jogar,
+        args=(11,),
+        use_container_width=True,
+    )
 
 st.button("Novo jogo", on_click=iniciar_jogo)
