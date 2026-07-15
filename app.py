@@ -116,7 +116,7 @@ if st.session_state.mensagem:
 
 
 # Desenho simples do tabuleiro 3x4.
-col1, col2, col3, col4 = st.columns(3)
+col1, col2, col3, col4 = st.columns(4)
 
 with col1:
     st.button(
@@ -155,7 +155,7 @@ with col4:
         use_container_width=True,
     )
     
-col5, col6, col7, col8 = st.columns(3)
+col5, col6, col7, col8 = st.columns(4)
 with col5:
     st.button(
         SIMBOLOS[st.session_state.tabuleiro[4]],
@@ -188,7 +188,7 @@ with col8:
         args=(7,),
         use_container_width=True,
     )
-col9, col10, col11, col12 = st.columns(3)
+col9, col10, col11, col12 = st.columns(4)
 with col9:
     st.button(
         SIMBOLOS[st.session_state.tabuleiro[8]],
